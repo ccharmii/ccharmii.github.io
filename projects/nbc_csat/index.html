@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Naver Boostcamp 8기 — Portfolio</title>
+
+  <link rel="stylesheet" href="../../stylesheet.css" />
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        referrerpolicy="no-referrer" />
+
+  <style>
+    .project-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 26px 16px 40px;
+      line-height: 1.6;
+    }
+    .project-top {
+      margin-bottom: 24px;
+    }
+    .project-title {
+      margin: 6px 0 6px;
+      line-height: 1.25;
+      font-size: 2rem;
+    }
+    .project-meta {
+      margin: 0 0 15px;
+      color: #555;
+    }
+    .project-figure {
+      margin: 24px 0;
+      padding: 0;
+      text-align: center;
+      width: 100%;
+    }
+    .project-figure img {
+      width: 80%;
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+      margin: 0 auto 12px;
+      border: 1px solid #eee;
+    }
+    .caption {
+      margin-top: 8px;
+      font-size: 0.9em;
+      text-align: center;
+      color: #666;
+    }
+    
+    .summary-box {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      border-left: 5px solid #333;
+    }
+    .summary-box h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    .summary-box ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    h3 {
+      margin-top: 40px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+    }
+    .issue-link {
+      display: block;
+      margin: 8px 0;
+      word-break: break-all;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="project-wrap">
+    <div class="project-top">
+      <p style="margin:0 0 10px;">
+        <a href="../../">&larr; Back to Home</a>
+      </p>
+
+      <h2 class="project-title">Naver Boostcamp 8기: 수능형 국어·사회 문제 풀이 모델 개발</h2>
+
+      <p class="project-meta">
+        <strong>Role: Baseline 코드 설계 및 리팩토링, RAFT 방법론 구현 및 실험, Context Engineering</strong>
+        <br>
+        <em>2025. 12 – 2026. 01 (3주)</em>
+      </p>
+
+      <span class="pub-links">
+        <a class="pub-btn" href="https://github.com/boostcampaitech8/pro-nlp-generationfornlp-nlp-02?tab=readme-ov-file" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+        </a>
+        <a class="pub-btn" href="https://github.com/boostcampaitech8/pro-nlp-generationfornlp-nlp-02/blob/main/assets/AIgora%20(nlp_02)%20%EC%88%98%EB%8A%A5%20%EB%AC%B8%EC%A0%9C%20%ED%92%80%EC%9D%B4%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20Wrap-up%20Report.pdf" target="_blank" rel="noopener noreferrer">
+          <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Wrap-up Report
+        </a>
+      </span>
+    </div>
+
+    <section>
+      <div class="summary-box">
+        <h4>[프로젝트 요약]</h4>
+        <ul>
+          <li><strong>목적:</strong> 제한된 컴퓨팅 리소스 환경에서 4B 규모 추론 모델에 Test time scailing을 적용해 성능 극대화</li>
+          <li><strong>성과:</strong> 최종 Macro F1 Score 0.6701을 기록하며 4B Reasoning 모델 단순 추론 대비 약 11% 성능 향상을 달성했으며, 특히 RAFT 방법론 적용을 통해 단순 RAG 대비 0.13의 유의미한 점수 개선을 이끌어냄</li>
+        </ul>
+      </div>
+
+      <h3>1. Baseline 리팩토링</h3>
+      <ul>
+        <li><strong>문제 인식:</strong> 이전 프로젝트 진행 시 Baseline 코드의 구조적 결함으로 인해 코드 병합 및 새로운 방법론 적용 시 불필요한 시간이 과도하게 낭비됨</li>
+        <li><strong>해결 방안:</strong>
+          <ul>
+            <li><strong>추상화 설계:</strong> Trainer, Preprocessor, Model Loader 등을 추상 클래스로 정의하여 모듈화</li>
+            <li>YAML 기반 Config 인자 변경만으로 새로운 방법론을 즉시 테스트할 수 있는 환경을 구축하여 실험 속도 가속화</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>2. Test Time Scailing을 통한 모델 지식 분류 및 최적화</h3>
+      <ul>
+        <li><strong>문제 인식:</strong> 모델이 알고 있는 지식과 모르는 지식 (RAG가 필요한 문제) 을 분리하면 성능이 오름. 단순히 모든 문제에 대해서 RAG를 진행하기보다 LLM As a Judge로 RAG가 필요한 문제에만 RAG를 적용하면 성능이 오름</li>
+        <li><strong>해결 방안:</strong> Test 단계의 Sampling을 통해 모델이 알고 있는 지식과 헷갈리는 지식을 나눠 처리</li>
+      </ul>
+
+      <figure class="project-figure">
+        <img src="./test_time_scailing.png" alt="Test Time Scaling Process" loading="lazy" />
+        <figcaption class="caption"><strong>Figure 1.</strong> Test Time Scaling 기반 지식 상태 분류 프로세스</figcaption>
+      </figure>
+
+      <div style="margin-left: 20px;">
+        <p><strong>• 지식 상태 분류:</strong> 동일 문항에 대해 5회 샘플링을 진행하여 답변의 일관성을 측정</p>
+        <ul>
+          <li><strong>확신(Agreement == 1):</strong> 모든 샘플이 동일한 답변을 내놓을 경우 모델의 내재된 지식으로 판단하여 즉시 정답 반환</li>
+          <li><strong>혼란(Agreement < 1):</strong> 답변이 엇갈릴 경우 모델이 헷갈리는 지식으로 판단하여 보완 단계 진입</li>
+        </ul>
+        <p><strong>• LLM as a Judge 기반 검증:</strong> 혼란 상태의 문항에 대해 Reasoning 분석을 통해 일관성 판단</p>
+        <p><strong>• 선택적 RAG 및 RAFT 활용:</strong> 검증 점수가 낮은 문항에 한해서만 RAG 컨텍스트를 제공하고, 문서 선별 능력이 강화된 RAFT 모델로 최종 추론을 수행</p>
+        <p><strong>• 결과:</strong> 4B Reasoning 모델 단순 추론(0.6027) 대비 최종 Macro F1 0.6701 달성</p>
+      </div>
+
+      <h3>3. RAFT 구현 및 고도화</h3>
+      <ul>
+        <li><strong>문제 인식:</strong> 모든 문항에 일괄적으로 RAG를 적용했을 때, 문제와 무관한 문서가 노이즈로 작용하여 오히려 성능이 하락(0.6027 → 0.5365)하는 문제 발견</li>
+        <li><strong>해결 방안:</strong> 모델이 문서를 선별적으로 활용하도록 학습시키는 RAFT(Retrieval-Augmented Fine-Tuning)를 도입</li>
+      </ul>
+
+      <figure class="project-figure">
+        <img src="./RAFT_paper_fig.png" alt="RAFT Paper Figure" loading="lazy" />
+        <figcaption class="caption"><strong>Figure 2.</strong> RAFT 방법론의 기본 개념 (논문 참조)</figcaption>
+      </figure>
+
+      <ul>
+        <li>상위 모델(30B)의 Reasoning Trace를 추출하여 학습 데이터 생성 및 Knowledge Distillation 효과 유도</li>
+      </ul>
+
+      <figure class="project-figure">
+        <img src="./RAFT.png" alt="RAFT Implementation" loading="lazy" />
+        <figcaption class="caption"><strong>Figure 3.</strong> 구현된 RAFT 모델 아키텍처</figcaption>
+      </figure>
+
+      <ul>
+        <li>모델의 오답(이중 추론 실패, 지문 과의존 등) 패턴을 분석하여 Context Engineering 진행</li>
+      </ul>
+
+      <table>
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>특징</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>정답 샘플</strong></td>
+            <td>문제 유형을 먼저 선언하는 명확한 reasoning</td>
+          </tr>
+          <tr>
+            <td><strong>None 샘플</strong></td>
+            <td>추론이 너무 길어 정답 출력 실패</td>
+          </tr>
+          <tr>
+            <td><strong>오답 원인</strong></td>
+            <td>이중 추론에 취약, 지문 과의존, 못 찾으면 5 출력</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-left: 20px;">
+        <p>• 팀 내 방법론 공유를 위해 직접 논문 리뷰 진행</p>
+        <a class="issue-link" href="https://cch8ii.tistory.com/144" target="_blank">→ 논문 리뷰 포스팅 보기 (tistory)</a>
+        <p><strong>• 결과:</strong> RAFT 적용 시 단순 RAG 대비 성능 0.13 향상 (단순 RAG 도입 시 발생하는 노이즈 문제를 해결하기 위해, 학습 단계에서부터 문서의 필요성을 스스로 판단하도록 유도하는 RAFT 방법론의 효과 입증)</p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
