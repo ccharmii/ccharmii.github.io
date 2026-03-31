@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Naver Boostcamp 8기 — Portfolio</title>
+  <title>Naver Boostcamp 8th Project</title>
 
   <link rel="stylesheet" href="../../stylesheet.css" />
 
@@ -52,6 +52,19 @@
       color: #666;
     }
     
+    /* 글머리 기호 들여쓰기 최소화 */
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    ul ul {
+      margin-top: 8px;
+      padding-left: 1.2rem;
+    }
+
     .summary-box {
       background-color: #f8f9fa;
       padding: 20px;
@@ -63,10 +76,6 @@
       margin-top: 0;
       margin-bottom: 10px;
     }
-    .summary-box ul {
-      margin: 0;
-      padding-left: 20px;
-    }
     h3 {
       margin-top: 40px;
       border-bottom: 1px solid #eee;
@@ -76,6 +85,11 @@
       display: block;
       margin: 8px 0;
       word-break: break-all;
+      color: #0366d6;
+      text-decoration: none;
+    }
+    .issue-link:hover {
+      text-decoration: underline;
     }
     table {
       width: 100%;
@@ -100,7 +114,7 @@
         <a href="../../">&larr; Back to Home</a>
       </p>
 
-      <h2 class="project-title">Naver Boostcamp 8기: 수능형 국어·사회 문제 풀이 모델 개발</h2>
+      <h2 class="project-title">Naver Boostcamp 8th: 수능 국어·사회 문제 풀이 모델 개발</h2>
 
       <p class="project-meta">
         <strong>Role: Baseline 코드 설계 및 리팩토링, RAFT 방법론 구현 및 실험, Context Engineering</strong>
@@ -122,26 +136,33 @@
       <div class="summary-box">
         <h4>[프로젝트 요약]</h4>
         <ul>
-          <li><strong>목적:</strong> 제한된 컴퓨팅 리소스 환경에서 4B 규모 추론 모델에 Test time scailing을 적용해 성능 극대화</li>
-          <li><strong>성과:</strong> 최종 Macro F1 Score 0.6701을 기록하며 4B Reasoning 모델 단순 추론 대비 약 11% 성능 향상을 달성했으며, 특히 RAFT 방법론 적용을 통해 단순 RAG 대비 0.13의 유의미한 점수 개선을 이끌어냄</li>
+          <li><strong>목적:</strong> 제한된 컴퓨팅 리소스 환경에서 4B 규모 추론 모델에 Test time scaling을 적용해 성능 극대화</li>
+          <li><strong>성과:</strong> 최종 Macro F1 Score 0.6701을 기록하며 단순 추론 대비 <strong>약 11% 성능 향상</strong> 달성 (RAFT 적용으로 단순 RAG 대비 0.13 개선)</li>
         </ul>
       </div>
 
       <h3>1. Baseline 리팩토링</h3>
       <ul>
-        <li><strong>문제 인식:</strong> 이전 프로젝트 진행 시 Baseline 코드의 구조적 결함으로 인해 코드 병합 및 새로운 방법론 적용 시 불필요한 시간이 과도하게 낭비됨</li>
+        <li><strong>문제 인식:</strong> Baseline 코드의 구조적 결함으로 인해 새로운 방법론 적용 시 불필요한 시간이 과도하게 낭비됨</li>
         <li><strong>해결 방안:</strong>
           <ul>
             <li><strong>추상화 설계:</strong> Trainer, Preprocessor, Model Loader 등을 추상 클래스로 정의하여 모듈화</li>
-            <li>YAML 기반 Config 인자 변경만으로 새로운 방법론을 즉시 테스트할 수 있는 환경을 구축하여 실험 속도 가속화</li>
+            <li>YAML 기반 Config 환경 구축으로 인자 변경만으로 새로운 방법론을 즉시 테스트 가능케 하여 실험 속도 가속화</li>
           </ul>
         </li>
       </ul>
 
-      <h3>2. Test Time Scailing을 통한 모델 지식 분류 및 최적화</h3>
+      <h3>2. Test Time Scaling을 통한 모델 지식 분류 및 최적화</h3>
       <ul>
-        <li><strong>문제 인식:</strong> 모델이 알고 있는 지식과 모르는 지식 (RAG가 필요한 문제) 을 분리하면 성능이 오름. 단순히 모든 문제에 대해서 RAG를 진행하기보다 LLM As a Judge로 RAG가 필요한 문제에만 RAG를 적용하면 성능이 오름</li>
-        <li><strong>해결 방안:</strong> Test 단계의 Sampling을 통해 모델이 알고 있는 지식과 헷갈리는 지식을 나눠 처리</li>
+        <li><strong>문제 인식:</strong> 모든 문제에 일괄적으로 RAG를 적용하기보다, 모델이 모르는 지식에 대해서만 선택적으로 RAG를 적용하는 것이 성능에 유리함</li>
+        <li><strong>해결 방안: Test 단계의 Sampling을 통해 모델의 지식 상태 분류</strong>
+          <ul>
+            <li><strong>지식 상태 분류:</strong> 동일 문항 5회 샘플링을 통한 답변 일관성 측정 (확신: Agreement == 1 / 혼란: Agreement < 1)</li>
+            <li><strong>LLM as a Judge 기반 검증:</strong> 혼란 상태의 문항에 대해 Reasoning 분석을 수행하여 일관성 판단</li>
+            <li><strong>선택적 RAG 및 RAFT 활용:</strong> 검증 점수가 낮은 문항에 한해 RAG 컨텍스트를 제공하고 RAFT 모델로 최종 추론 수행</li>
+            <li><strong>결과:</strong> 4B Reasoning 모델 단순 추론(0.6027) 대비 <strong>최종 Macro F1 0.6701 달성</strong></li>
+          </ul>
+        </li>
       </ul>
 
       <figure class="project-figure">
@@ -149,21 +170,17 @@
         <figcaption class="caption"><strong>Figure 1.</strong> Test Time Scaling 기반 지식 상태 분류 프로세스</figcaption>
       </figure>
 
-      <div style="margin-left: 20px;">
-        <p><strong>• 지식 상태 분류:</strong> 동일 문항에 대해 5회 샘플링을 진행하여 답변의 일관성을 측정</p>
-        <ul>
-          <li><strong>확신(Agreement == 1):</strong> 모든 샘플이 동일한 답변을 내놓을 경우 모델의 내재된 지식으로 판단하여 즉시 정답 반환</li>
-          <li><strong>혼란(Agreement < 1):</strong> 답변이 엇갈릴 경우 모델이 헷갈리는 지식으로 판단하여 보완 단계 진입</li>
-        </ul>
-        <p><strong>• LLM as a Judge 기반 검증:</strong> 혼란 상태의 문항에 대해 Reasoning 분석을 통해 일관성 판단</p>
-        <p><strong>• 선택적 RAG 및 RAFT 활용:</strong> 검증 점수가 낮은 문항에 한해서만 RAG 컨텍스트를 제공하고, 문서 선별 능력이 강화된 RAFT 모델로 최종 추론을 수행</p>
-        <p><strong>• 결과:</strong> 4B Reasoning 모델 단순 추론(0.6027) 대비 최종 Macro F1 0.6701 달성</p>
-      </div>
-
       <h3>3. RAFT 구현 및 고도화</h3>
       <ul>
-        <li><strong>문제 인식:</strong> 모든 문항에 일괄적으로 RAG를 적용했을 때, 문제와 무관한 문서가 노이즈로 작용하여 오히려 성능이 하락(0.6027 → 0.5365)하는 문제 발견</li>
-        <li><strong>해결 방안:</strong> 모델이 문서를 선별적으로 활용하도록 학습시키는 RAFT(Retrieval-Augmented Fine-Tuning)를 도입</li>
+        <li><strong>문제 인식:</strong> 문제와 무관한 문서가 노이즈로 작용하여 단순 RAG 적용 시 성능이 하락(0.6027 → 0.5365)하는 현상 발생</li>
+        <li><strong>해결 방안: Retrieval-Augmented Fine-Tuning(RAFT) 도입 및 데이터 고도화</strong>
+          <ul>
+            <li><strong>RAFT 학습:</strong> 모델이 문서를 선별적으로 활용하도록 학습시켜 노이즈 내성을 강화</li>
+            <li><strong>Knowledge Distillation:</strong> 상위 모델(30B)의 Reasoning Trace를 추출하여 학습 데이터 생성</li>
+            <li><strong>Context Engineering:</strong> 이중 추론 실패, 지문 과의존 등 모델의 오답 패턴을 분석하여 프롬프트 및 컨텍스트 최적화</li>
+            <li><strong>결과:</strong> RAFT 적용 시 <strong>단순 RAG 대비 성능 0.13 향상</strong> (문서 필요성을 스스로 판단하는 모델 구축)</li>
+          </ul>
+        </li>
       </ul>
 
       <figure class="project-figure">
@@ -171,18 +188,10 @@
         <figcaption class="caption"><strong>Figure 2.</strong> RAFT 방법론의 기본 개념 (논문 참조)</figcaption>
       </figure>
 
-      <ul>
-        <li>상위 모델(30B)의 Reasoning Trace를 추출하여 학습 데이터 생성 및 Knowledge Distillation 효과 유도</li>
-      </ul>
-
       <figure class="project-figure">
         <img src="./RAFT.png" alt="RAFT Implementation" loading="lazy" />
         <figcaption class="caption"><strong>Figure 3.</strong> 구현된 RAFT 모델 아키텍처</figcaption>
       </figure>
-
-      <ul>
-        <li>모델의 오답(이중 추론 실패, 지문 과의존 등) 패턴을 분석하여 Context Engineering 진행</li>
-      </ul>
 
       <table>
         <thead>
@@ -207,11 +216,12 @@
         </tbody>
       </table>
 
-      <div style="margin-left: 20px;">
-        <p>• 팀 내 방법론 공유를 위해 직접 논문 리뷰 진행</p>
-        <a class="issue-link" href="https://cch8ii.tistory.com/144" target="_blank">→ 논문 리뷰 포스팅 보기 (tistory)</a>
-        <p><strong>• 결과:</strong> RAFT 적용 시 단순 RAG 대비 성능 0.13 향상 (단순 RAG 도입 시 발생하는 노이즈 문제를 해결하기 위해, 학습 단계에서부터 문서의 필요성을 스스로 판단하도록 유도하는 RAFT 방법론의 효과 입증)</p>
-      </div>
+      <ul>
+        <li>
+          팀 내 방법론 공유를 위한 논문 리뷰 진행
+          <a class="issue-link" href="https://cch8ii.tistory.com/144" target="_blank">→ RAFT 논문 리뷰 포스팅 보기 (tistory)</a>
+        </li>
+      </ul>
     </section>
   </div>
 </body>

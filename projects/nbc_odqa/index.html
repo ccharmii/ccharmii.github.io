@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ODQA Project — Portfolio</title>
+  <title>Naver Boostcamp 8th Project</title>
 
   <link rel="stylesheet" href="../../stylesheet.css" />
 
@@ -52,6 +52,19 @@
       color: #666;
     }
     
+    /* 글머리 기호 들여쓰기 최소화 */
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    ul ul {
+      margin-top: 8px;
+      padding-left: 1.2rem;
+    }
+
     .summary-box {
       background-color: #f8f9fa;
       padding: 20px;
@@ -63,10 +76,6 @@
       margin-top: 0;
       margin-bottom: 10px;
     }
-    .summary-box ul {
-      margin: 0;
-      padding-left: 20px;
-    }
     h3 {
       margin-top: 40px;
       border-bottom: 1px solid #eee;
@@ -76,6 +85,11 @@
       display: block;
       margin: 8px 0;
       word-break: break-all;
+      color: #0366d6;
+      text-decoration: none;
+    }
+    .issue-link:hover {
+      text-decoration: underline;
     }
     table {
       width: 100%;
@@ -100,7 +114,7 @@
         <a href="../../">&larr; Back to Home</a>
       </p>
 
-      <h2 class="project-title">Naver Boostcamp 8기: ODQA (Open-Domain Question Answering) 모델 구현</h2>
+      <h2 class="project-title">Naver Boostcamp 8th: Open-Domain Question Answering 모델 구현</h2>
 
       <p class="project-meta">
         <strong>Role: EDA 및 검증 전략 수립, Baseline 코드 리팩토링, monoQA 적용</strong>
@@ -128,15 +142,17 @@
         <h4>[프로젝트 요약]</h4>
         <ul>
           <li><strong>목적:</strong> Wikipedia 기반 Open-Domain Question Answering(ODQA) 파이프라인 구현 및 정답 예측</li>
-          <li><strong>성과:</strong> 최종 1위 달성 (Private EM 74.17%), 상위권 평균 대비 약 3.23%p 높은 성능 기록 및 검증 데이터 재구축을 통해 Val-LB 간 점수 격차 36% 개선</li>
+          <li><strong>성과:</strong> <strong>최종 1위 달성 (Private EM 74.17%)</strong>, 검증 데이터 재구축을 통해 Val-LB 간 점수 격차 36% 개선</li>
         </ul>
       </div>
 
       <h3>1. 검증 데이터 재구축</h3>
-      <p>초기 실험 시 Validation EM과 리더보드 점수 간의 차이가 커 실험의 신뢰도가 낮은 문제를 해결하기 위해 데이터 분포 기반의 검증 전략을 수립</p>
-      
       <ul>
-        <li><strong>문제 인식:</strong> BM25 유사도 분석 결과, 기존 Validation 데이터셋이 Test 데이터셋에 비해 Train 데이터셋과 너무 유사한 분포를 보임 (Train-Val 유사도 9.74 vs Test-Val 유사도 4.80)</li>
+        <li><strong>문제 인식:</strong> 초기 실험 시 Validation EM과 리더보드 점수 간의 괴리가 커 실험의 신뢰도가 낮음
+          <ul>
+            <li>BM25 유사도 분석 결과, 기존 Validation 셋이 Test 셋보다 Train 셋과 너무 유사한 분포를 보임 (Train-Val 유사도 9.74 vs Test-Val 유사도 4.80)</li>
+          </ul>
+        </li>
       </ul>
 
       <figure class="project-figure">
@@ -145,8 +161,12 @@
       </figure>
 
       <ul>
-        <li>→ 이는 검증 결과가 리더보드 점수를 대변하지 못하는 결과(Gap 15%p 이상)로 이어짐</li>
-        <li><strong>해결 방안:</strong> Test 데이터셋과 유사하게끔 Validation 데이터셋을 재추출하여 분포를 일치시킴</li>
+        <li><strong>해결 방안: 분포 불일치 해소를 위한 Validation 데이터셋 재추출</strong>
+          <ul>
+            <li>Test 데이터셋의 유사도 분포와 일치하도록 Validation 데이터셋을 재구축하여 실험 환경 최적화</li>
+            <li><strong>결과:</strong> Val EM과 리더보드 점수 차이를 15%p에서 9.6%p로 <strong>약 5.4%p 개선</strong>하며 실험의 신뢰도 확보</li>
+          </ul>
+        </li>
       </ul>
 
       <figure class="project-figure">
@@ -154,25 +174,26 @@
         <figcaption class="caption"><strong>Figure 3.</strong> 재구축 후 데이터 분포 (Test 셋과의 분포 일치)</figcaption>
       </figure>
 
-      <ul>
-        <li><strong>결과:</strong> Test 데이터셋과의 BM25 유사도 분포를 일치시켜 Validation EM과 리더보드 점수 간의 차이를 15%p에서 9.6%p로 약 5.4%p 개선하며 실험의 신뢰도를 확보</li>
-      </ul>
-
       <h3>2. SOTA 방법론 monoQA 구현 및 적용</h3>
-      <p>단일 Extraction 모델의 한계를 극복하기 위해, Reranking과 Answer Extraction을 동시에 수행하는 Multi-task Learning 기반의 monoQA를 도입</p>
+      <ul>
+        <li><strong>문제 인식:</strong> 단일 추출(Extraction) 모델만으로는 문서 내에 정답이 존재하더라도 문맥적 이해 부족으로 답을 찾지 못하는 한계 존재</li>
+        <li><strong>해결 방안: Reranking과 Answer Extraction을 통합한 Multi-task Learning 모델 도입</strong>
+          <ul>
+            <li>KorQuAD 2.0 1위 모델인 EXAONE 구조를 벤치마킹하여 Reranker와 Reader를 통합한 monoQA 구조 구현</li>
+            <li><strong>특징:</strong> 생성형 모델을 기반으로 추출형 모델이 놓치는 문맥적 정답을 생성하는 강점 확보</li>
+          </ul>
+        </li>
+      </ul>
 
       <figure class="project-figure">
         <img src="./monoqa.png" alt="monoQA Architecture" loading="lazy" />
         <figcaption class="caption"><strong>Figure 4.</strong> Reranker와 Reader를 통합한 monoQA 구조</figcaption>
       </figure>
 
+      <h3>3. 결과 분석 및 앙상블</h3>
       <ul>
-        <li><strong>문제 인식:</strong> 문서 내의 Answer Span으로 답을 찾는 일반적인 Extraction 방식만으로는 제대로 된 문서 내에서도 답을 찾지 못하는 경우 발생</li>
-        <li><strong>해결 방안:</strong> KorQuAD 2.0 1위 모델인 EXAONE 구조를 벤치마킹하여 Reranker와 Reader를 통합한 구조인 monoQA 리뷰 및 구현</li>
+        <li><strong>모델별 성능 비교:</strong> Generative 기반 monoQA의 높은 F1 Score 확인</li>
       </ul>
-
-      <h3>3. 결과 분석</h3>
-      <p>Generative 모델을 활용하는 monoQA는 불필요한 토큰 추가로 EM(Exact Match)은 낮지만, F1 Score가 높다는 특성 파악</p>
 
       <table>
         <thead>
@@ -184,7 +205,7 @@
         </thead>
         <tbody>
           <tr>
-            <td><strong>monoQA (Qwen3-4B LoRA finetuning)</strong></td>
+            <td><strong>monoQA (Qwen3-4B LoRA)</strong></td>
             <td>65.00</td>
             <td><strong>69.87</strong></td>
           </tr>
@@ -197,8 +218,7 @@
       </table>
 
       <ul>
-        <li>→ 추출형 모델이 놓치는 문맥적 정답을 생성한다는 강점 존재</li>
-        <li><strong>최종 앙상블 전략:</strong> 최종 단계에서 0.130의 가중치를 부여한 Casting Vote로 활용하여 앙상블 모델의 다양성과 정밀도 동시 확보</li>
+        <li><strong>최종 전략:</strong> monoQA에 0.130의 가중치를 부여한 <strong>Casting Vote</strong>로 활용하여 앙상블 모델의 다양성과 정밀도 동시 확보</li>
       </ul>
     </section>
   </div>

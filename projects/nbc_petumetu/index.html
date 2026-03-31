@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>페튜와 매튜 (Paper Tutor & Map Tutor) — Portfolio</title>
+  <title>Naver Boostcamp 8th Project</title>
 
   <link rel="stylesheet" href="../../stylesheet.css" />
 
@@ -51,34 +51,43 @@
       text-align: center;
       color: #666;
     }
-    /* 좌 그림 / 우 설명 레이아웃 전용 스타일 */
-    .side-layout {
-    display: flex;
-    align-items: flex-start; /* 글이 길어지면 위쪽 라인에 맞춤 */
-    gap: 30px;               /* 그림과 글 사이 간격 */
-    margin: 24px 0;
+
+    /* 글머리 기호 들여쓰기 최소화 */
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    ul ul {
+      margin-top: 8px;
+      padding-left: 1.2rem;
     }
 
+    /* 좌 그림 / 우 설명 레이아웃 */
+    .side-layout {
+      display: flex;
+      align-items: flex-start;
+      gap: 30px;
+      margin: 24px 0;
+    }
     .side-layout .project-figure {
-    flex: 1;                 /* 왼쪽 그림 영역 비율 */
-    margin: 0;
+      flex: 1;
+      margin: 0;
     }
-
     .side-layout .project-figure img {
-    width: 100% !important;  /* 기존 80% 설정을 무시하고 꽉 채움 */
+      width: 100% !important;
     }
-
     .side-layout .project-description {
-    flex: 1.5;               /* 오른쪽 글 영역 비율 (글이 많으므로 더 넓게) */
-    margin: 0;
-    padding-left: 10px;      /* 불렛 포인트 여백 */
+      flex: 1.5;
+      margin: 0;
     }
 
-    /* 모바일 대응: 화면이 좁아지면 위아래로 배치 */
     @media (max-width: 768px) {
-    .side-layout {
+      .side-layout {
         flex-direction: column;
-    }
+      }
     }
         
     .summary-box {
@@ -92,10 +101,6 @@
       margin-top: 0;
       margin-bottom: 10px;
     }
-    .summary-box ul {
-      margin: 0;
-      padding-left: 20px;
-    }
     h3 {
       margin-top: 40px;
       border-bottom: 1px solid #eee;
@@ -105,6 +110,11 @@
       display: block;
       margin: 8px 0;
       word-break: break-all;
+      color: #0366d6;
+      text-decoration: none;
+    }
+    .issue-link:hover {
+      text-decoration: underline;
     }
     table {
       width: 100%;
@@ -129,10 +139,10 @@
         <a href="../../">&larr; Back to Home</a>
       </p>
 
-      <h2 class="project-title">페튜와 매튜 (Paper Tutor & Map Tutor): Multi Agent 기반 논문 학습 가이드 서비스</h2>
+      <h2 class="project-title">Naver Boostcamp 8th: 페튜와 매튜 (Paper Tutor & Map Tutor)</h2>
 
       <p class="project-meta">
-        <strong>Role: 데이터 수집 및 정제·생성, Graph Database 설계 및 구축, Agent 구현, Context Engineering, Web Search Tools 디벨롭</strong>
+        <strong>Role: 데이터 수집/정제, Graph DB 설계, Agent 구현, Context Engineering, Search Tools 개발</strong>
         <br>
         <em>2026. 02 (4주)</em>
       </p>
@@ -156,13 +166,8 @@
       <div class="summary-box">
         <h4>[프로젝트 요약]</h4>
         <ul>
-          <li><strong>목적:</strong> 사용자의 도메인 지식 수준과 가용 시간을 반영하여, 목표 논문을 이해하기 위해 반드시 알아야 할 개념들을 그래프 형태로 제공하고 최적의 학습 경로를 설계하는 Multi Agent 기반 웹서비스 구현</li>
-          <li><strong>성과:</strong> 
-            <ul>
-              <li>Graph Database 기반의 지식 추출을 통해 LLM의 Hallucination을 억제하고 학습 경로의 해석 가능성 확보</li>
-              <li>사용자 설문 결과, 서비스 제시 키워드와 필수 선수 개념 간 일치도 약 60% 달성 및 75% 이상의 긍정적 피드백 수렴</li>
-            </ul>
-          </li>
+          <li><strong>목적:</strong> 사용자 지식 수준과 시간을 반영하여 논문 이해에 필요한 핵심 개념을 그래프로 제공하고 최적의 학습 경로를 설계하는 Multi Agent 서비스</li>
+          <li><strong>성과:</strong> Graph DB 기반 지식 추출로 Hallucination 억제, 사용자 긍정 피드백 75% 달성</li>
         </ul>
       </div>
 
@@ -173,8 +178,8 @@
 
       <h3>1. 기존 문제점 분석</h3>
       <ul>
-        <li>최신 AI 논문 학습 수요는 높아졌지만, 선수 지식과 선행 논문에 대한 이해 부족으로 인해 높은 진입장벽 존재</li>
-        <li><strong>설문 결과 인사이트:</strong> 네이버 부스트캠프 교육생 및 멘토 33명 대상 설문 결과, 73%가 선수 개념 보조 자료를, 85%가 한눈에 볼 수 있는 개념도를 필요로 함</li>
+        <li>최신 AI 논문의 높은 진입장벽과 선수 지식 부족으로 인한 학습의 어려움</li>
+        <li><strong>사용자 니즈 파악 (설문):</strong> 교육생/멘토 33명 대상 설문 결과, 85%가 시각화된 개념도를 필요로 함</li>
       </ul>
       <figure class="project-figure">
         <img src="./survey.png" alt="사용자 설문 결과" loading="lazy" />
@@ -183,11 +188,12 @@
 
       <h3>2. Graph Database 설계 및 구축</h3>
       <ul>
-        <li><strong>문제 인식:</strong> 일반적인 LLM만으로 선수 개념을 생성할 경우, 정보 일관성이 낮고 실제 존재하지 않는 개념이 생성되는 Hallucination 발생 가능성 존재</li>
-        <li><strong>해결 방안:</strong> 
+        <li><strong>문제 인식:</strong> LLM 단독 활용 시 선수 개념 정보의 일관성이 낮고 실존하지 않는 개념이 생성되는 Hallucination 발생</li>
+        <li><strong>해결 방안: Neo4j 기반 Graph Database 구축 및 관계 정의</strong>
           <ul>
-            <li>Semantic Scholar, Wikipedia 데이터를 활용하여 논문-개념 간 관계를 정의한 <strong>Neo4j 기반 Graph Database</strong> 구축</li>
-            <li>Paper, Keyword 노드와 PREREQ, IN, ABOUT, REF_BY 관계를 중심으로 핵심 그래프 구조 설계</li>
+            <li>Semantic Scholar, Wikipedia 데이터를 활용하여 논문-개념 간 유기적 관계 구축</li>
+            <li>Paper, Keyword 노드와 PREREQ(선수지식), IN(포함), ABOUT(주제) 등 핵심 관계 설계</li>
+            <li><strong>결과:</strong> 구조화된 데이터를 통해 근거 있는 학습 경로 시각화 기반 마련</li>
           </ul>
         </li>
       </ul>
@@ -195,54 +201,53 @@
       <table>
         <thead>
           <tr>
-            <th>관계 유형 (Type)</th>
-            <th>구조 (Direction)</th>
+            <th>관계 유형</th>
+            <th>구조</th>
             <th>의미 (Description)</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><strong>PREREQ</strong></td>
-            <td>키워드 A → 키워드 B</td>
+            <td>A → B</td>
             <td>A가 B의 선수 지식임 (B를 알려면 A를 알아야 함)</td>
           </tr>
           <tr>
             <td><strong>IN</strong></td>
-            <td>키워드 A → 논문</td>
+            <td>A → 논문</td>
             <td>논문을 이해하기 위한 선수 개념이 A임</td>
           </tr>
           <tr>
             <td><strong>ABOUT</strong></td>
-            <td>논문 → 키워드 A</td>
-            <td>논문의 주요 개념이 A임 (A를 주되게 제안함)</td>
-          </tr>
-          <tr>
-            <td><strong>REF_BY</strong></td>
-            <td>논문 A → 논문 B</td>
-            <td>논문 B가 논문 A를 참고함</td>
+            <td>논문 → A</td>
+            <td>논문의 주요 제안/핵심 개념이 A임</td>
           </tr>
         </tbody>
       </table>
 
-      <div style="margin-left: 20px;">
-        <a class="issue-link" href="https://cch8ii.tistory.com/148" target="_blank">→ 선수 개념 관련 서베이 논문 리뷰 보기</a>
-        <p><strong>결과:</strong> 구조화된 지식 데이터를 바탕으로 사용자에게 근거 있는 학습 경로를 시각화하여 제공할 수 있는 기반 마련</p>
-      </div>
+      <ul>
+        <li>
+          선수 개념 관련 서베이 논문 분석 진행
+          <a class="issue-link" href="https://cch8ii.tistory.com/148" target="_blank">→ 지식 그래프 관련 논문 리뷰 보기</a>
+        </li>
+      </ul>
 
       <h3>3. Agent 구현 및 Context Engineering</h3>
+      <ul>
+        <li><strong>문제 인식:</strong> 과도한 정보 포함으로 인한 학습 효율 저하 및 개인화 정보(수준, 가용 시간 등) 미반영 한계</li>
+        <li><strong>해결 방안: 개인화 Keyword Graph Agent 구현</strong>
+          <ul>
+            <li>순환 엣지 제거 및 입력 구조 표준화 전처리 수행</li>
+            <li>사용자 수준, 학습 목적, 목표 시간을 반영한 Context Engineering 수행</li>
+            <li><strong>결과:</strong> 사용자의 배경지식에 맞춘 '필수 핵심 개념' 선별 및 추천</li>
+          </ul>
+        </li>
+      </ul>
+
       <figure class="project-figure">
         <img src="./graph_agent.png" alt="Graph Agent 구조" loading="lazy" />
         <figcaption class="caption"><strong>Figure 4.</strong> Keyword Graph Agent의 개인화 처리 과정</figcaption>
       </figure>
-      <ul>
-        <li><strong>문제 인식:</strong> 과도한 선수 개념 포함으로 인한 학습 효율 저하 및 개인화 정보(수준, 시간 등) 미반영 한계</li>
-        <li><strong>해결 방안:</strong> 
-          <ul>
-            <li>순환 엣지 제거 및 입력 구조 표준화 전처리 수행</li>
-            <li>사용자 수준, 기존 지식 반영, 학습 목적, 목표 소요 시간 등을 반영한 <strong>Keyword Graph Agent</strong> 구현 및 Context Engineering 수행</li>
-          </ul>
-        </li>
-      </ul>
 
       <h3>4. Web Search Tools 디벨롭</h3>
       <div class="side-layout">
@@ -251,23 +256,21 @@
           <figcaption class="caption"><strong>Figure 5.</strong> 통합 검색 및 리랭킹 파이프라인</figcaption>
         </figure>
       
-        <ul class="project-description">
-          <li><strong>문제 인식:</strong> 단일 툴 구조의 한계(자료 다각화 부족), API 호출 과부하, 중복 제거 시 검색 결과 유실 문제</li>
-          <li><strong>해결 방안:</strong> 
-            <ul>
-              <li>Web(Serper)·Video(YouTube)·Paper(Semantic Scholar)를 통합하는 파이프라인 구축</li>
-              <li>사용자 Preference에 따른 동적 max_results 조합 로직 설계 (Rule-based)</li>
-              <li><strong>데이터 기반 Reranking:</strong> <code>Score = (Quality * 1.5) + Preference Weight</code> 적용 및 상위 3개 자료 추출</li>
-            </ul>
-          </li>
-          <li><strong>결과:</strong> 
-            <ul>
-              <li>검색 결과 유실률 <strong>0%</strong> 달성 및 에이전트 호출 비용/시간 약 <strong>60~70% 절감</strong></li>
-              <li>사용자 선호 타입 가중치 반영을 통해 맞춤형 자료 추천 기능 강화</li>
-            </ul>
-          </li>
-        </ul>
+        <div class="project-description">
+          <ul>
+            <li><strong>문제 인식:</strong> 단일 검색 툴의 자료 부족, API 호출 과부하, 중복 제거 시 결과 유실 문제</li>
+            <li><strong>해결 방안: 통합 검색 및 데이터 기반 Reranking 시스템</strong>
+              <ul>
+                <li>Web(Serper), Video(YouTube), Paper(Semantic Scholar)를 통합하는 파이프라인 구축</li>
+                <li>사용자 Preference에 따른 동적 max_results 조합 로직 설계</li>
+                <li><strong>Score 로직 적용:</strong> <code>(Quality * 1.5) + Preference Weight</code> 기반 상위 자료 추출</li>
+              </ul>
+            </li>
+            <li><strong>결과:</strong> 결과 유실률 <strong>0%</strong> 달성 및 에이전트 호출 비용 약 <strong>60% 절감</strong></li>
+          </ul>
+        </div>
       </div>
+
       <figure class="project-figure">
         <img src="./main_page_2.png" alt="서비스 결과 화면" loading="lazy" />
         <figcaption class="caption"><strong>Figure 6.</strong> 최종 결과 화면 - 시각화된 학습 경로 및 추천 자료</figcaption>
