@@ -31,18 +31,18 @@
       color: #555;
     }
     .project-figure {
-      margin: 24px 0; /* 위아래 여백만 남기고 좌우는 0으로 초기화 */
+      margin: 24px 0;
       padding: 0;
       text-align: center;
       width: 100%;
     }
     .project-figure img {
-      width: 80%; /* 사진 크기를 본문의 80%로 줄임 */
+      width: 80%;
       max-width: 100%;
       height: auto;
       border-radius: 12px;
       display: block;
-      margin: 0 auto 12px; /* 사진 자체를 가운데 정렬 */
+      margin: 0 auto 12px;
       border: 1px solid #eee;
     }
     .caption {
@@ -64,10 +64,21 @@
       margin-top: 0;
       margin-bottom: 10px;
     }
-    .summary-box ul {
+    
+    /* 글머리 기호 들여쓰기 최소화 */
+    ul {
       margin: 0;
-      padding-left: 20px;
+      padding-left: 1.1rem; /* 최소한의 공간만 확보 */
     }
+    li {
+      margin-bottom: 8px;
+    }
+    /* 중첩된 리스트의 경우 적절한 간격 부여 */
+    ul ul {
+      margin-top: 8px;
+      padding-left: 1.2rem;
+    }
+
     h3 {
       margin-top: 40px;
       border-bottom: 1px solid #eee;
@@ -75,8 +86,14 @@
     }
     .issue-link {
       display: block;
-      margin: 8px 0;
+      margin: 4px 0 12px;
       word-break: break-all;
+      font-size: 0.95em;
+      color: #0366d6;
+      text-decoration: none;
+    }
+    .issue-link:hover {
+      text-decoration: underline;
     }
     table {
       width: 100%;
@@ -157,18 +174,22 @@
       <h3>2. 문제 해결 및 오픈소스 기여</h3>
       <ul>
         <li><strong>문제 인식:</strong> 재현 과정에서 이론적 수치와 실제 결과의 괴리를 발견</li>
-        <li><strong>GitHub Issue 제기 및 코드 수정 기여 (총 2건)</strong></li>
+        <li><strong>GitHub Issue 제기 및 코드 수정 기여 (총 2건)</strong>
+          <ul>
+            <li>
+              <strong>좌표 값 범위 오류 규명:</strong> 모델은 [0, 1] 범위를 가정하나, 코드상에서 정규분포(torch.randn)를 사용해 발생하는 AssertionError 원인 파악 및 수정 제안
+              <a class="issue-link" href="https://github.com/Learning4Optimization-HUST/H-TSP/issues/6" target="_blank">→ GitHub Issue #6 보기</a>
+            </li>
+            <li>
+              <strong>로직 결함 및 런타임 에러 수정:</strong> 특정 하이퍼파라미터 상황에서 변수 미할당으로 발생하는 UnboundLocalError 포착 및 로직 보완
+              <a class="issue-link" href="https://github.com/Learning4Optimization-HUST/H-TSP/issues/7" target="_blank">→ GitHub Issue #7 보기</a>
+            </li>
+            <li>
+              분석 내용을 문서화하여 GitHub Issue 제기, 핵심 개발자로부터 "정확한 논리적 근거"라는 피드백과 함께 코드 반영 완료
+            </li>
+          </ul>
+        </li>
       </ul>
-
-      <div style="margin-left: 20px;">
-        <p><strong>• 좌표 값 범위 오류 규명:</strong> 모델은 [0, 1] 범위를 가정하나, 코드상에서 정규분포(torch.randn)를 사용해 발생하는 AssertionError 원인 파악 및 수정 제안</p>
-        <a class="issue-link" href="https://github.com/Learning4Optimization-HUST/H-TSP/issues/6" target="_blank">→ GitHub Issue #6 보기</a>
-        
-        <p><strong>• 로직 결함 및 런타임 에러 수정:</strong> 특정 하이퍼파라미터 상황에서 변수 미할당으로 발생하는 UnboundLocalError 포착 및 로직 보완</p>
-        <a class="issue-link" href="https://github.com/Learning4Optimization-HUST/H-TSP/issues/7" target="_blank">→ GitHub Issue #7 보기</a>
-        
-        <p><strong>• 분석 내용을 문서화하여 GitHub Issue 제기, 핵심 개발자로부터 "정확한 논리적 근거"라는 피드백과 함께 코드 반영 완료</strong></p>
-      </div>
     </section>
 
     <hr style="margin: 60px 0; border: 0; border-top: 1px solid #eee;">
@@ -196,9 +217,6 @@
       </figure>
       <ul>
         <li><strong>CSP (Cutting Stock Problem):</strong> 큰 Material을 여러 개의 Product로 자른다고 할 때 자를 때 자투리인 Trim loss와 총 Material 사용량을 최소화하는 문제</li>
-      </ul>
-
-      <ul>
         <li><strong>기존 방식의 한계 분석:</strong> 기존의 선형 계획법(LP) 기반 Solver는 데이터 규모가 커질수록 계산 복잡도가 기하급수적으로 증가하며, 고정된 롤 형태의 제약 조건으로 인해 유연한 대응이 어려움</li>
         <li><strong>2-Stage 1.5D CSP 문제로 재정의 (폭 분할 → 길이 분할)</strong></li>
       </ul>
