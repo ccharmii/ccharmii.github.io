@@ -156,11 +156,15 @@
       <ul>
         <li><strong>문제 인식:</strong> 모든 문제에 일괄적으로 RAG를 적용하기보다, 모델이 모르는 지식에 대해서만 선택적으로 RAG를 적용하는 것이 성능에 유리함</li>
         <li><strong>해결 방안:</strong> Test 단계의 Sampling을 통해 모델의 지식 상태 분류
+          <ul style="list-style-type: none; padding-left: 0;">
+            <li style="list-style-type: none;">
+              <figure class="project-figure">
+                <img src="./test_time_scailing.png" alt="Test Time Scaling Process" loading="lazy" />
+                <figcaption class="caption"><strong>Figure 1.</strong> Test Time Scaling 기반 지식 상태 분류 프로세스</figcaption>
+              </figure>
+            </li>
+          </ul>
           <ul>
-            <figure class="project-figure">
-              <img src="./test_time_scailing.png" alt="Test Time Scaling Process" loading="lazy" />
-              <figcaption class="caption"><strong>Figure 1.</strong> Test Time Scaling 기반 지식 상태 분류 프로세스</figcaption>
-            </figure>
             <li>지식 상태 분류: 동일 문항 5회 샘플링을 통한 답변 일관성 측정 (확신: Agreement == 1 / 혼란: Agreement < 1)</li>
             <li>LLM as a Judge 기반 검증: 혼란 상태의 문항에 대해 Reasoning 분석을 수행하여 일관성 판단</li>
             <li>선택적 RAG 및 RAFT 활용: 검증 점수가 낮은 문항에 한해 RAG 컨텍스트를 제공하고 RAFT 모델로 최종 추론 수행</li>
@@ -172,9 +176,9 @@
       <h3>3. RAFT 구현 및 고도화</h3>
       <ul>
         <li><strong>문제 인식:</strong> 문제와 무관한 문서가 노이즈로 작용하여 단순 RAG 적용 시 성능이 하락(0.6027 → 0.5365)하는 현상 발생</li>
-        <li><strong>해결 방안: Retrieval-Augmented Fine-Tuning(RAFT) 도입 및 데이터 고도화</strong>
+        <li><strong>해결 방안:</strong> Retrieval-Augmented Fine-Tuning(RAFT) 도입 및 데이터 고도화
           <ul>
-            <li>
+            <li style="list-style-type: none; margin-left: -1.2rem;">
               <figure class="project-figure">
                 <img src="./RAFT_paper_fig.png" alt="RAFT Paper Figure" loading="lazy" />
                 <figcaption class="caption"><strong>Figure 2.</strong> RAFT 방법론의 기본 개념 (논문 참조)</figcaption>
@@ -187,7 +191,7 @@
             <li><strong>Context Engineering:</strong> 이중 추론 실패, 지문 과의존 등 모델의 오답 패턴을 분석하여 컨텍스트 최적화</li>
           </ul>
         </li>
-        <li>
+        <li style="list-style-type: none; margin-left: -1.1rem;">
           <figure class="project-figure">
             <img src="./RAFT.png" alt="RAFT Implementation" loading="lazy" />
             <figcaption class="caption"><strong>Figure 3.</strong> 구현된 RAFT 모델 아키텍처</figcaption>

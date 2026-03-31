@@ -193,9 +193,7 @@
           <ul>
             <li>Semantic Scholar, Wikipedia 데이터를 활용하여 논문-개념 간 유기적 관계 구축</li>
             <li>Paper, Keyword 노드와 PREREQ(선수지식), IN(포함), ABOUT(주제) 등 핵심 관계 설계
-              <ul>
-                <li>
-                  <table style="margin: 10px 0;">
+              <ul style="list-style-type: none; padding-left: 0;"> <li style="list-style-type: none;"> <table style="margin: 10px 0;">
                     <thead>
                       <tr>
                         <th>관계 유형</th>
@@ -243,9 +241,9 @@
           <ul>
             <li>순환 엣지 제거 및 입력 구조 표준화 전처리 수행</li>
             <li>사용자 수준, 학습 목적, 목표 시간을 반영한 Context Engineering 수행</li>
-            <li><strong>결과:</strong> 사용자의 배경지식에 맞춘 필수 핵심 개념 선별 및 추천</li>
           </ul>
         </li>
+        <li><strong>결과:</strong> 사용자의 배경지식에 맞춘 필수 핵심 개념 선별 및 추천</li>
       </ul>
 
       <figure class="project-figure">
@@ -254,28 +252,32 @@
       </figure>
 
       <h3>4. Web Search Tools 디벨롭</h3>
-      <div class="side-layout">
-        <figure class="project-figure">
+      
+      <ul>
+        <li><strong>문제 인식:</strong> 단일 검색 툴의 자료 부족, API 호출 과부하, 중복 제거 시 결과 유실 문제</li>
+        <li><strong>해결 방안:</strong> 통합 검색 및 데이터 기반 Reranking 시스템
+          <ul>
+            <li>Web·Video·Paper를 통합하는 Search Tools 파이프라인 구축</li>
+            <li>병렬 호출 처리로 응답 속도 개선</li>
+            <li>사용자 Preference에 따라 Search Tool별 max_results를 동적으로 조합하는 Rule-based 로직 설계
+              <br>→ 예: "Web+Video" 선호 시 Tavily(1) + Serper Web(2) + Serper Video(2) 조합으로 호출
+            </li>
+            <li>키워드 단위로 수집된 검색 결과를 단일 컨텍스트에 묶어 처리함으로써 호출 비용을 절감하고, 개별 평가로는 어려웠던 자료 간 상대 비교가 가능하도록 구현</li>
+            <li>데이터 기반 Reranking 로직 구현: <code>Score = (Quality * 1.5) + Preference Weight</code> 적용하여 사용자 맞춤형 상위 3개 자료 추출</li>
+            <li><code>min_pref</code> 로직을 통해 최소 1개 이상의 선호 자료 제공 보장</li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="side-layout" style="align-items: center; margin-top: 20px;">
+        <figure class="project-figure" style="flex: 1.2;">
           <img src="./web_search_tools.png" alt="Search Tools 파이프라인" loading="lazy" />
           <figcaption class="caption"><strong>Figure 5.</strong> 통합 검색 및 리랭킹 파이프라인</figcaption>
         </figure>
       
-        <div class="project-description">
+        <div class="project-description" style="flex: 1;">
           <ul>
-            <li><strong>문제 인식:</strong> 단일 검색 툴의 자료 부족, API 호출 과부하, 중복 제거 시 결과 유실 문제</li>
-            <li><strong>해결 방안:</strong> 통합 검색 및 데이터 기반 Reranking 시스템
-              <ul>
-                <li>Web·Video·Paper를 통합하는 Search Tools 파이프라인 구축</li>
-                <li>병렬 호출 처리로 응답 속도 개선</li>
-                <li>사용자 Preference에 따라 Search Tool별 max_results를 동적으로 조합하는 Rule-based 로직 설계
-                  <br>→ 예: "Web+Video" 선호 시 Tavily(1) + Serper Web(2) + Serper Video(2) 조합으로 호출
-                </li>
-                <li>키워드 단위로 수집된 검색 결과를 단일 컨텍스트에 묶어 처리함으로써 호출 비용을 절감하고, 개별 평가로는 어려웠던 자료 간 상대 비교가 가능하도록 구현</li>
-                <li>데이터 기반 Reranking 로직 구현: <code>Score = (Quality * 1.5) + Preference Weight</code> 적용하여 사용자 맞춤형 상위 3개 자료 추출</li>
-                <li><code>min_pref</code> 로직을 통해 최소 1개 이상의 선호 자료 제공 보장</li>
-              </ul>
-            </li>
-            <li><strong>결과:</strong>
+            <li style="list-style-type: none; margin-left: -1.1rem;"><strong>결과:</strong>
               <ul>
                 <li><code>max_results</code>를 1개에서 5개로 확장하고 임베딩 유사도 및 리랭킹을 적용해 검색 결과 유실률 <strong>0%</strong> 달성</li>
                 <li>키워드별 통합 평가 방식으로 전환해 에이전트 호출 비용 및 처리 시간 약 <strong>60~70%</strong> 절감</li>
@@ -284,6 +286,7 @@
             </li>
           </ul>
         </div>
+      </div>
 
       <figure class="project-figure">
         <img src="./main_page_2.png" alt="서비스 결과 화면" loading="lazy" />
