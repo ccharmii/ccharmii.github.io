@@ -157,7 +157,7 @@
       <ul>
         <li><strong>TSP (Traveling Salesman Problem):</strong> 노드와 노드 간의 거리가 주어졌을 때 모든 노드를 정확히 한 번씩 방문하는 최단 거리를 찾는 문제</li>
         <li><strong>기존 방식의 한계 분석:</strong> TSP의 스케일이 커질수록 학습, 추론 시간이 크게 늘어나며 초기 해 품질이 전체 성능에 큰 영향을 미치는 문제를 확인</li>
-        <li><strong>H-TSP 모델 도입:</strong> Divide-and-Conquer 방식을 활용해 전체 문제를 하위 문제로 나누어 해결하는 계층적 접근법 채택 및 성능 재현</li>
+        <li><strong>H-TSP 모델 채택:</strong> Divide-and-Conquer 방식을 활용해 전체 문제를 하위 문제로 나누어 해결하는 계층적 접근법 채택 및 성능 재현</li>
       </ul>
       <figure class="project-figure">
         <img src="./h_tsp.png" alt="H-TSP Model Overview" loading="lazy" />
@@ -185,7 +185,7 @@
               <a class="issue-link" href="https://github.com/Learning4Optimization-HUST/H-TSP/issues/7" target="_blank">→ GitHub Issue #7 보기</a>
             </li>
             <li>
-              분석 내용을 문서화하여 GitHub Issue 제기, 핵심 개발자로부터 "정확한 논리적 근거"라는 피드백과 함께 코드 반영 완료
+              분석 내용을 문서화하여 <strong>GitHub Issue 제기</strong>, 개발자로부터 <strong>정확한 논리적 근거</strong>라는 피드백과 함께 코드 반영 완료
             </li>
           </ul>
         </li>
@@ -230,13 +230,18 @@
       <ul>
         <li><strong>계층적 염색체 설계:</strong> [Stage 1 Genes | Stage 2 Genes] 구조를 통해 폭과 길이의 연결 제약을 유전 정보에 반영</li>
         <li><strong>LP 기반 초기화:</strong> 랜덤 생성이 아닌 선형 계획법의 해를 초기 해로 사용해 알고리즘의 수렴 속도 향상</li>
-        <li><strong>Fitness Function 설계</strong></li>
+        <li><strong>Fitness Function 설계:</strong> Trim Loss와 원재료 사용량을 동시에 최소화하는 목적 함수 정의
+          <ul>
+            <li>
+              <div class="math-box" style="margin: 10px 0;">
+                Fitness = Trim Loss + (Penalty Weight × Material Count)
+              </div>
+            </li>
+          </ul>
+        </li>
       </ul>
-
-      <div class="math-box">
-        Fitness = Trim Loss + (Penalty Weight × Material Count)
-      </div>
-
+      
+      <p><strong>⇒ 결론적으로 손실을 18% 절감함과 동시에 기존 Solver 대비 속도를 52% 단축하고, 과생산율을 4.7%에서 1.9%로 감소시킴</strong></p>
       <table>
         <thead>
           <tr>
@@ -274,7 +279,6 @@
         </tbody>
       </table>
 
-      <p>⇒ 결론적으로 손실을 18% 절감함과 동시에 기존 Solver 대비 속도를 52% 단축하고, 과생산율을 4.7%에서 1.9%로 감소시킴</p>
     </section>
 
   </div>

@@ -142,7 +142,7 @@
         <h4>[프로젝트 요약]</h4>
         <ul>
           <li><strong>목적:</strong> Wikipedia 기반 Open-Domain Question Answering(ODQA) 파이프라인 구현 및 정답 예측</li>
-          <li><strong>성과:</strong> <strong>최종 1위 달성 (Private EM 74.17%)</strong>, 검증 데이터 재구축을 통해 Val-LB 간 점수 격차 36% 개선</li>
+          <li><strong>성과:</strong> <strong>최종 1위 달성 (Private EM 74.17%)</strong></li>
         </ul>
       </div>
 
@@ -161,12 +161,8 @@
       </figure>
 
       <ul>
-        <li><strong>해결 방안: 분포 불일치 해소를 위한 Validation 데이터셋 재추출</strong>
-          <ul>
-            <li>Test 데이터셋의 유사도 분포와 일치하도록 Validation 데이터셋을 재구축하여 실험 환경 최적화</li>
-            <li><strong>결과:</strong> Val EM과 리더보드 점수 차이를 15%p에서 9.6%p로 <strong>약 5.4%p 개선</strong>하며 실험의 신뢰도 확보</li>
-          </ul>
-        </li>
+        <li><strong>해결 방안:</strong> Test 데이터셋의 유사도 분포와 일치하도록 Validation 데이터셋을 재구축</li>
+        <li><strong>결과:</strong> Val EM과 리더보드 점수 차이를 15%p에서 9.6%p로 <strong>약 5.4%p 개선</strong>하며 실험의 신뢰도 확보</li>
       </ul>
 
       <figure class="project-figure">
@@ -176,11 +172,11 @@
 
       <h3>2. SOTA 방법론 monoQA 구현 및 적용</h3>
       <ul>
-        <li><strong>문제 인식:</strong> 단일 추출(Extraction) 모델만으로는 문서 내에 정답이 존재하더라도 문맥적 이해 부족으로 답을 찾지 못하는 한계 존재</li>
+        <li><strong>문제 인식:</strong> 단일 Extraction 모델만으로는 문서 내에 정답이 존재하더라도 문맥적 이해 부족으로 답을 찾지 못하는 한계 존재</li>
         <li><strong>해결 방안: Reranking과 Answer Extraction을 통합한 Multi-task Learning 모델 도입</strong>
           <ul>
             <li>KorQuAD 2.0 1위 모델인 EXAONE 구조를 벤치마킹하여 Reranker와 Reader를 통합한 monoQA 구조 구현</li>
-            <li><strong>특징:</strong> 생성형 모델을 기반으로 추출형 모델이 놓치는 문맥적 정답을 생성하는 강점 확보</li>
+            <li>Generative 모델을 기반으로 Extraction 모델이 놓치는 문맥적 정답을 생성하는 강점 확보</li>
           </ul>
         </li>
       </ul>
@@ -192,30 +188,35 @@
 
       <h3>3. 결과 분석 및 앙상블</h3>
       <ul>
-        <li><strong>모델별 성능 비교:</strong> Generative 기반 monoQA의 높은 F1 Score 확인</li>
+        <li><strong>모델별 성능 비교:</strong> Generative 기반 monoQA가 EM은 낮지만 F1 Score가 높은 것을 확인
+          <ul>
+            <li>
+              <table style="margin: 10px 0;">
+                <thead>
+                  <tr>
+                    <th>모델 이름</th>
+                    <th>EM (%)</th>
+                    <th>F1 (%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>monoQA (Qwen3-4B LoRA)</strong></td>
+                    <td>65.00</td>
+                    <td><strong>69.87</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>monoQA (T5 finetuning)</strong></td>
+                    <td>57.50</td>
+                    <td>63.56</td>
+                  </tr>
+                </tbody>
+              </table>
+            </li>
+          </ul>
+        </li>
+        <li><strong>최종 전략:</strong> monoQA에 0.130의 가중치를 부여한 <strong>Casting Vote</strong>로 활용하여 앙상블 모델의 다양성과 정밀도 동시 확보</li>
       </ul>
-
-      <table>
-        <thead>
-          <tr>
-            <th>모델 이름</th>
-            <th>EM (%)</th>
-            <th>F1 (%)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>monoQA (Qwen3-4B LoRA)</strong></td>
-            <td>65.00</td>
-            <td><strong>69.87</strong></td>
-          </tr>
-          <tr>
-            <td><strong>monoQA (T5 finetuning)</strong></td>
-            <td>57.50</td>
-            <td>63.56</td>
-          </tr>
-        </tbody>
-      </table>
 
       <ul>
         <li><strong>최종 전략:</strong> monoQA에 0.130의 가중치를 부여한 <strong>Casting Vote</strong>로 활용하여 앙상블 모델의 다양성과 정밀도 동시 확보</li>

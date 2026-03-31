@@ -179,7 +179,7 @@
       <h3>1. 기존 문제점 분석</h3>
       <ul>
         <li>최신 AI 논문의 높은 진입장벽과 선수 지식 부족으로 인한 학습의 어려움</li>
-        <li><strong>사용자 니즈 파악 (설문):</strong> 교육생/멘토 33명 대상 설문 결과, 85%가 시각화된 개념도를 필요로 함</li>
+        <li>교육생/멘토 33명 대상 설문 결과, 85%가 시각화된 개념도를 필요로 함</li>
       </ul>
       <figure class="project-figure">
         <img src="./survey.png" alt="사용자 설문 결과" loading="lazy" />
@@ -189,41 +189,45 @@
       <h3>2. Graph Database 설계 및 구축</h3>
       <ul>
         <li><strong>문제 인식:</strong> LLM 단독 활용 시 선수 개념 정보의 일관성이 낮고 실존하지 않는 개념이 생성되는 Hallucination 발생</li>
-        <li><strong>해결 방안: Neo4j 기반 Graph Database 구축 및 관계 정의</strong>
+        <li><strong>해결 방안: Graph Database 구축 및 관계 정의</strong>
           <ul>
             <li>Semantic Scholar, Wikipedia 데이터를 활용하여 논문-개념 간 유기적 관계 구축</li>
-            <li>Paper, Keyword 노드와 PREREQ(선수지식), IN(포함), ABOUT(주제) 등 핵심 관계 설계</li>
-            <li><strong>결과:</strong> 구조화된 데이터를 통해 근거 있는 학습 경로 시각화 기반 마련</li>
+            <li>Paper, Keyword 노드와 PREREQ(선수지식), IN(포함), ABOUT(주제) 등 핵심 관계 설계
+              <ul>
+                <li>
+                  <table style="margin: 10px 0;">
+                    <thead>
+                      <tr>
+                        <th>관계 유형</th>
+                        <th>구조</th>
+                        <th>의미 (Description)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>PREREQ</strong></td>
+                        <td>A → B</td>
+                        <td>A가 B의 선수 지식임 (B를 알려면 A를 알아야 함)</td>
+                      </tr>
+                      <tr>
+                        <td><strong>IN</strong></td>
+                        <td>A → 논문</td>
+                        <td>논문을 이해하기 위한 선수 개념이 A임</td>
+                      </tr>
+                      <tr>
+                        <td><strong>ABOUT</strong></td>
+                        <td>논문 → A</td>
+                        <td>논문의 주요 제안/핵심 개념이 A임</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+              </ul>
+            </li>
           </ul>
         </li>
+        <li><strong>결과:</strong> 구조화된 데이터를 통해 근거 있는 학습 경로 시각화 기반 마련</li>
       </ul>
-
-      <table>
-        <thead>
-          <tr>
-            <th>관계 유형</th>
-            <th>구조</th>
-            <th>의미 (Description)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>PREREQ</strong></td>
-            <td>A → B</td>
-            <td>A가 B의 선수 지식임 (B를 알려면 A를 알아야 함)</td>
-          </tr>
-          <tr>
-            <td><strong>IN</strong></td>
-            <td>A → 논문</td>
-            <td>논문을 이해하기 위한 선수 개념이 A임</td>
-          </tr>
-          <tr>
-            <td><strong>ABOUT</strong></td>
-            <td>논문 → A</td>
-            <td>논문의 주요 제안/핵심 개념이 A임</td>
-          </tr>
-        </tbody>
-      </table>
 
       <ul>
         <li>
@@ -234,12 +238,12 @@
 
       <h3>3. Agent 구현 및 Context Engineering</h3>
       <ul>
-        <li><strong>문제 인식:</strong> 과도한 정보 포함으로 인한 학습 효율 저하 및 개인화 정보(수준, 가용 시간 등) 미반영 한계</li>
-        <li><strong>해결 방안: 개인화 Keyword Graph Agent 구현</strong>
+        <li><strong>문제 인식:</strong> Multi-Agent에 특정 논문의 Sub-Graph를 그대로 입력할 경우, 사용자 정보 미반영 및 과도한 선수 개념 포함으로 학습 효율 저하 문제 발생</li>
+        <li><strong>해결 방안:</strong> 개인화 Keyword Graph Agent 구현
           <ul>
             <li>순환 엣지 제거 및 입력 구조 표준화 전처리 수행</li>
             <li>사용자 수준, 학습 목적, 목표 시간을 반영한 Context Engineering 수행</li>
-            <li><strong>결과:</strong> 사용자의 배경지식에 맞춘 '필수 핵심 개념' 선별 및 추천</li>
+            <li><strong>결과:</strong> 사용자의 배경지식에 맞춘 필수 핵심 개념 선별 및 추천</li>
           </ul>
         </li>
       </ul>
@@ -259,17 +263,27 @@
         <div class="project-description">
           <ul>
             <li><strong>문제 인식:</strong> 단일 검색 툴의 자료 부족, API 호출 과부하, 중복 제거 시 결과 유실 문제</li>
-            <li><strong>해결 방안: 통합 검색 및 데이터 기반 Reranking 시스템</strong>
+            <li><strong>해결 방안:</strong> 통합 검색 및 데이터 기반 Reranking 시스템
               <ul>
-                <li>Web(Serper), Video(YouTube), Paper(Semantic Scholar)를 통합하는 파이프라인 구축</li>
-                <li>사용자 Preference에 따른 동적 max_results 조합 로직 설계</li>
-                <li><strong>Score 로직 적용:</strong> <code>(Quality * 1.5) + Preference Weight</code> 기반 상위 자료 추출</li>
+                <li>Web·Video·Paper를 통합하는 Search Tools 파이프라인 구축</li>
+                <li>병렬 호출 처리로 응답 속도 개선</li>
+                <li>사용자 Preference에 따라 Search Tool별 max_results를 동적으로 조합하는 Rule-based 로직 설계
+                  <br>→ 예: "Web+Video" 선호 시 Tavily(1) + Serper Web(2) + Serper Video(2) 조합으로 호출
+                </li>
+                <li>키워드 단위로 수집된 검색 결과를 단일 컨텍스트에 묶어 처리함으로써 호출 비용을 절감하고, 개별 평가로는 어려웠던 자료 간 상대 비교가 가능하도록 구현</li>
+                <li>데이터 기반 Reranking 로직 구현: <code>Score = (Quality * 1.5) + Preference Weight</code> 적용하여 사용자 맞춤형 상위 3개 자료 추출</li>
+                <li><code>min_pref</code> 로직을 통해 최소 1개 이상의 선호 자료 제공 보장</li>
               </ul>
             </li>
-            <li><strong>결과:</strong> 결과 유실률 <strong>0%</strong> 달성 및 에이전트 호출 비용 약 <strong>60% 절감</strong></li>
+            <li><strong>결과:</strong>
+              <ul>
+                <li><code>max_results</code>를 1개에서 5개로 확장하고 임베딩 유사도 및 리랭킹을 적용해 검색 결과 유실률 <strong>0%</strong> 달성</li>
+                <li>키워드별 통합 평가 방식으로 전환해 에이전트 호출 비용 및 처리 시간 약 <strong>60~70%</strong> 절감</li>
+                <li>사용자 선호 타입(Paper/Video/Web) 가중치 반영을 통해 사용자 선호도 반영 강화</li>
+              </ul>
+            </li>
           </ul>
         </div>
-      </div>
 
       <figure class="project-figure">
         <img src="./main_page_2.png" alt="서비스 결과 화면" loading="lazy" />

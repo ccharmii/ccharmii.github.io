@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tilda Intern — Portfolio</title>
+  <title>KB국민은행 제7회 Future Finance A.I. Challenge</title>
 
   <link rel="stylesheet" href="../../stylesheet.css" />
 
@@ -65,7 +65,7 @@
       display: flex;
       align-items: center;
       gap: 30px;
-      margin: 30px 0;
+      margin: 20px 0;
     }
     .project-section .project-figure {
       flex: 1;
@@ -93,16 +93,22 @@
       color: #666;
     }
     
-    /* 글머리 기호 들여쓰기 최소화 */
+    /* 글머리 기호 설정 */
     ul {
       margin: 0;
-      padding-left: 1.1rem; /* 글머리 기호가 텍스트 라인에 붙도록 설정 */
+      padding-left: 1.1rem;
+      list-style-type: disc; /* 기본 검정색 점 */
     }
     li {
       margin-bottom: 8px;
     }
+    /* 하위 리스트: 빈 동그라미 설정 */
+    ul ul {
+      list-style-type: circle; 
+      padding-left: 1.2rem;
+      margin-top: 8px;
+    }
 
-    /* 상세 페이지 전용 추가 스타일 */
     .summary-box {
       background-color: #f8f9fa;
       padding: 20px;
@@ -119,28 +125,6 @@
       margin-top: 40px;
       border-bottom: 1px solid #eee;
       padding-bottom: 8px;
-    }
-    h4 {
-      margin-top: 25px;
-      margin-bottom: 12px;
-    }
-    .issue-link {
-      display: block;
-      margin: 8px 0;
-      word-break: break-all;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 12px;
-      text-align: center;
-    }
-    th {
-      background-color: #f4f4f4;
     }
     .math-box {
       background: #f1f1f1;
@@ -194,7 +178,7 @@
         <h4>[프로젝트 요약]</h4>
         <ul>
           <li><strong>목적:</strong> 재무 지표와 비재무 정보(공시, 뉴스)를 통합 분석하여 신용 하락 징후를 사전에 포착하고, 그 원인을 설명 가능하게 제시하는 AI 에이전트 구현</li>
-          <li><strong>성과:</strong> KB국민은행 제7회 Future Finance A.I. Challenge <strong>우수상 수상</strong></li>
+          <li><strong>성과: KB국민은행 제7회 Future Finance A.I. Challenge 우수상 수상</strong></li>
         </ul>
       </div>
 
@@ -207,33 +191,40 @@
 
       <h3>2. 주요 기술적 기여</h3>
       
-      <h4>• 도메인 지식 기반 재무 지표 설계 및 파생 변수 로직 구현</h4>
-      <div class="project-section">
-        <figure class="project-figure">
-          <img src="./metric_ui.png" alt="Metric UI Implementation" loading="lazy" />
-          <figcaption class="caption"><strong>Figure 1.</strong> 핵심 재무 지표 시각화 및 UI</figcaption>
-        </figure>
-      
-        <ul class="project-description">
-          <li>NICE 신용 등급 평가 기준 및 선행 연구를 참고하여 안정성, 수익성, 성장성, 활동성, 주식 관련 지표 등 총 <strong>46개의 핵심 재무 지표</strong>를 선정 및 수집 로직 구현</li>
-        </ul>
-      </div>
-
-      <h4>• Explainable Anomaly Detection 로직 구현</h4>
-      <figure class="project-figure">
-        <img src="./metric_anomaly_detection.png" alt="Anomaly Detection Logic" loading="lazy" />
-        <figcaption class="caption"><strong>Figure 2.</strong> 동종 업계 및 시계열 비교 기반 이상치 탐지</figcaption>
-      </figure>
       <ul>
-        <li><strong>동종 업계 평균 대비 비교:</strong> 한국표준산업분류(KSIC) 코드, 상장 여부, 기업 규모 등을 기준으로 Target 기업과 가장 유사한 Peer Group을 자동 필터링</li>
-        <li><strong>전년 및 2년 전 동기 대비 시계열 비교:</strong> Target 기업의 지표를 과거 자기 데이터와 비교 분석하여, 유의미한 하락 폭을 보일 경우 이를 이상 징후로 자동 감지하고 원문 근거와 연결</li>
-      </ul>
+        <li>
+          <strong>도메인 지식 기반 재무 지표 설계 및 파생 변수 로직 구현</strong>
+          <div class="project-section">
+            <figure class="project-figure">
+              <img src="./metric_ui.png" alt="Metric UI Implementation" loading="lazy" />
+              <figcaption class="caption"><strong>Figure 1.</strong> 핵심 재무 지표 시각화 및 UI</figcaption>
+            </figure>
+            <ul class="project-description">
+              <li>NICE 신용 등급 평가 기준 및 선행 연구를 참고하여 안정성, 수익성, 성장성, 활동성, 주식 관련 지표 등 총 46개의 핵심 재무 지표 선정 및 수집 로직 구현</li>
+            </ul>
+          </div>
+        </li>
 
-      <h4>• MMR 알고리즘 기반의 2단계 검색 파이프라인 구축</h4>
-      <ul>
-        <li><strong>MMR(Maximal Marginal Relevance) 알고리즘 적용:</strong> 검색 쿼리에 대한 문서의 관련성과 검색된 문서 간의 다양성을 동시에 고려하여, 중복된 정보를 제거하고 핵심적인 근거 문맥만을 균형 있게 추출</li>
-        <li><strong>[1단계] 쿼리 강화 및 1차 검색:</strong> 검색 쿼리에 분석 대상 분기 정보를 결합하고, 최종 결과물의 10배수(fetch_k) 후보군을 확보한 뒤 관련성과 다양성을 5:5 비율로 선택</li>
-        <li><strong>[2단계] 분기 하드 필터링 및 2차 검색:</strong> 벡터 유사도 특성상 발생할 수 있는 타 분기 데이터 혼입을 방지하기 위해 하드 필터링을 수행하며, 정보가 부족할 경우 다양성에 집중해 재검색</li>
+        <li>
+          <strong>Explainable Anomaly Detection 로직 구현</strong>
+          <figure class="project-figure">
+            <img src="./metric_anomaly_detection.png" alt="Anomaly Detection Logic" loading="lazy" />
+            <figcaption class="caption"><strong>Figure 2.</strong> 동종 업계 및 시계열 비교 기반 이상치 탐지</figcaption>
+          </figure>
+          <ul>
+            <li>동종 업계 평균 대비 비교:</strong> 한국표준산업분류(KSIC) 코드, 상장 여부, 기업 규모 등을 기준으로 Target 기업과 가장 유사한 Peer Group을 자동 필터링</li>
+            <li>전년 및 2년 전 동기 대비 시계열 비교: Target 기업의 지표를 과거 자기 데이터와 비교 분석하여, 유의미한 하락 폭을 보일 경우 이를 이상 징후로 자동 감지하고 원문 근거와 연결</li>
+          </ul>
+        </li>
+
+        <li>
+          <strong>MMR 알고리즘 기반의 2단계 검색 파이프라인 구축</strong>
+          <ul>
+            <li>검색 쿼리에 대한 문서의 관련성과 검색된 문서 간의 다양성을 동시에 고려하여, 중복된 정보를 제거하고 핵심적인 근거 문맥만을 균형 있게 추출</li>
+            <li>[1단계] 쿼리 강화 및 1차 검색: 검색 쿼리에 분석 대상 분기 정보를 결합하고, 최종 결과물의 10배수(fetch_k) 후보군을 확보한 뒤 관련성과 다양성을 5:5 비율로 선택</li>
+            <li>[2단계] 분기 하드 필터링 및 2차 검색: 벡터 유사도 특성상 발생할 수 있는 타 분기 데이터 혼입을 방지하기 위해 하드 필터링을 수행하며, 정보가 부족할 경우 다양성에 집중해 재검색</li>
+          </ul>
+        </li>
       </ul>
     </section>
 
