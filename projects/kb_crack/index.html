@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>KB-CRACK — Portfolio</title>
+  <title>Tilda Intern — Portfolio</title>
 
   <link rel="stylesheet" href="../../stylesheet.css" />
 
@@ -31,19 +31,64 @@
       color: #555;
     }
     .project-figure {
-      margin: 24px 0;
+      margin: 24px 0; /* 위아래 여백만 남기고 좌우는 0으로 초기화 */
       padding: 0;
       text-align: center;
       width: 100%;
     }
     .project-figure img {
-      width: 80%;
+      width: 80%; /* 사진 크기를 본문의 80%로 줄임 */
       max-width: 100%;
       height: auto;
       border-radius: 12px;
       display: block;
-      margin: 0 auto 12px;
+      margin: 0 auto 12px; /* 사진 자체를 가운데 정렬 */
       border: 1px solid #eee;
+    }
+    /* 한 행에 두 개의 열 (메인 페이지 사진용) */
+    .image-container {
+    display: flex;        /* 가로 정렬 활성화 */
+    gap: 20px;           /* 사진 사이 간격 */
+    margin: 24px 0;
+    }
+
+    .image-container .project-figure {
+    flex: 1;             /* 1:1 비율로 절반씩 차지 */
+    margin: 0;           /* 컨테이너 안에서는 마진 제거 */
+    }
+
+    .image-container .project-figure img {
+    width: 100%;         /* 부모 너비에 꽉 차게 (기존 80% 무시) */
+    }
+
+    /* 왼쪽 그림, 오른쪽 글 (재무 지표 섹션용) */
+    .project-section {
+    display: flex;
+    align-items: center; /* 그림과 글의 높이 중앙 맞춤 */
+    gap: 30px;
+    margin: 30px 0;
+    }
+
+    .project-section .project-figure {
+    flex: 1;             /* 왼쪽 그림 영역 비율 */
+    margin: 0;
+    }
+
+    .project-section .project-description {
+    flex: 1.2;           /* 오른쪽 글 영역 비율 (글이 많으니 조금 더 넓게) */
+    padding-left: 0;
+    }
+
+    /* 반응형: 화면이 좁아지면(모바일) 다시 위아래로 */
+    @media (max-width: 768px) {
+    .image-container, .project-section {
+        flex-direction: column;
+    }
+    
+    /* 모바일에서는 다시 사진을 좀 줄여서 보기 좋게 */
+    .project-figure img {
+        width: 90%; 
+    }
     }
     .caption {
       margin-top: 8px;
@@ -52,6 +97,7 @@
       color: #666;
     }
     
+    /* 상세 페이지 전용 추가 스타일 */
     .summary-box {
       background-color: #f8f9fa;
       padding: 20px;
@@ -72,22 +118,31 @@
       border-bottom: 1px solid #eee;
       padding-bottom: 8px;
     }
-    .pub-links {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    .issue-link {
+      display: block;
+      margin: 8px 0;
+      word-break: break-all;
     }
-    .pub-btn {
-      display: inline-block;
-      padding: 8px 16px;
-      background: #333;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 0.9rem;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
     }
-    .pub-btn:hover {
-      background: #555;
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    .math-box {
+      background: #f1f1f1;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+      margin: 15px 0;
     }
   </style>
 </head>
@@ -109,14 +164,14 @@
         <strong>역할:</strong> 재무 지표 선정 및 파생 변수 로직 구현, 이상치 탐지 로직 구현, UI 제작, 발표
       </p>
 
-      <div class="pub-links">
+      <span class="pub-links">
         <a class="pub-btn" href="https://github.com/ccharmii/KB-CRACK" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub Project
+          <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub Link
         </a>
         <a class="pub-btn" href="https://www.handmk.com/news/articleView.html?idxno=32745" target="_blank" rel="noopener noreferrer">
           <i class="fa-solid fa-newspaper" aria-hidden="true"></i> News Article
         </a>
-      </div>
+      </span>
     </div>
 
     <section>
