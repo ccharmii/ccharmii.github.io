@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research Projects</title>
+
+  <link rel="stylesheet" href="../../stylesheet.css" />
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        referrerpolicy="no-referrer" />
+
+  <style>
+    .project-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 26px 16px 40px;
+      line-height: 1.6;
+    }
+    .project-top {
+      margin-bottom: 24px;
+    }
+    .project-title {
+      margin: 6px 0 6px;
+      line-height: 1.25;
+      font-size: 2rem;
+    }
+    .project-meta {
+      margin: 0 0 15px;
+      color: #555;
+    }
+    .project-figure {
+      margin: 24px 0;
+      padding: 0;
+      text-align: center;
+      width: 100%;
+    }
+    .project-figure img {
+      width: 80%;
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+      margin: 0 auto 12px;
+      border: 1px solid #eee;
+    }
+    .caption {
+      margin-top: 8px;
+      font-size: 0.9em;
+      text-align: center;
+      color: #666;
+    }
+    .summary-box {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      border-left: 5px solid #333;
+    }
+    .summary-box h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    ul ul {
+      margin-top: 8px;
+      padding-left: 1.2rem;
+    }
+    h3 {
+      margin-top: 40px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+    }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+    .math-box {
+      background: #f1f1f1;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="project-wrap">
+    <div class="project-top">
+      <p style="margin:0 0 10px;">
+        <a href="../../">&larr; Back to Home</a>
+      </p>
+
+      <h2 class="project-title">Research Projects</h2>
+
+      <p class="project-meta">
+        <strong>Research</strong>
+        <br>
+        <em>2024. 11 – 2026. 02</em>
+      </p>
+    </div>
+
+    <section>
+      <h2>배반포 이미지를 활용한 임신 초기 예측 및 In-model XAI 연구</h2>
+
+      <div class="summary-box">
+        <h4>[프로젝트 요약]</h4>
+        <ul>
+          <li><strong>목적:</strong> 배반포 이미지만으로 임신 성공 가능성을 조기에 예측하고, 모델이 어떤 시각적 단서를 근거로 판단했는지 함께 제시하며 Explanation이 실제 예측에 반영되는 In-model XAI 구조를 설계</li>
+          <li><strong>성과:</strong>
+            <ul>
+              <li>연구 진행 중</li>
+              <li>U-Net 기반 Explainer를 활용해 Positive/Negative explanation map을 분리 생성하고, 이를 Classifier의 multi-scale feature에 직접 주입하는 구조를 구현해 AUROC 0.7125 달성</li>
+              <li>Slot Attention 기반 Explainer로 확장해 배아의 구조적 영역 단위 설명이 가능하도록 연구 진행 중</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <h3>1. 기존 문제점 분석</h3>
+      <ul>
+        <li>기존 배아 이미지 분류 모델은 예측 결과만 제시할 뿐, 어떤 근거로 판단했는지 설명하기 어려워 의료 현장에서 신뢰 확보에 한계 존재</li>
+        <li>Grad-CAM과 같은 post-hoc XAI는 예측 이후 heatmap을 덧붙이는 방식이라 시각화가 실제 모델 의사결정과 직접 연결되지 않는 문제 존재</li>
+      </ul>
+
+      <h3>2. 주요 기술적 기여</h3>
+      <ul>
+        <li><strong>Explainer-Classifier를 결합한 In-model XAI 구조:</strong> explainer가 생성한 pos/neg map을 classifier의 multi-scale feature에 직접 주입해 설명이 실제 예측 score 변화로 이어지도록 구현</li>
+      </ul>
+
+      <figure class="project-figure">
+        <img src="activities/research/explanation_1.png" alt="Explanation Map 1" loading="lazy" />
+        <figcaption class="caption">activities/research/explanation_1.png</figcaption>
+      </figure>
+
+      <figure class="project-figure">
+        <img src="activities/research/explanation_2.png" alt="Explanation Map 2" loading="lazy" />
+        <figcaption class="caption">activities/research/explanation_2.png</figcaption>
+      </figure>
+
+      <ul>
+        <li><strong>Slot Attention 확장 연구:</strong> Slot Attention을 Explainer에 결합해 이미지의 서로 다른 구조적 영역을 여러 slot으로 분리하고, 각 slot이 개별 구조적 특징을 담당하도록 확장 연구를 진행 중</li>
+        <li><strong>Slot Attention:</strong> 이미지 feature를 여러 slot이 나누어 담당하도록 학습시켜, 서로 다른 구조적 영역을 분리해 표현하는 attention 메커니즘</li>
+      </ul>
+
+      <figure class="project-figure">
+        <img src="activities/research/slot_attention.png" alt="Slot Attention" loading="lazy" />
+        <figcaption class="caption">activities/research/slot_attention.png</figcaption>
+      </figure>
+    </section>
+
+    <hr style="margin: 60px 0; border: 0; border-top: 1px solid #eee;">
+
+    <section>
+      <h2>Image Matting 기반 망막 혈관 미세 경계 추출</h2>
+
+      <div class="summary-box">
+        <h4>[프로젝트 요약]</h4>
+        <ul>
+          <li><strong>목적:</strong> 안저 이미지에서 혈관 구조를 정밀하게 분류하기 위해 Image Matting 기법을 적용</li>
+          <li><strong>성과:</strong>
+            <ul>
+              <li>Photoshop을 활용해 수작업 GT alpha matte 생성</li>
+              <li>IndexNet, AEMatter, MatteFormer 등의 모델을 파인튜닝하여 초기 결과 확보</li>
+              <li>전문가 자문을 통한 기술-도메인 불일치 규명 및 연구 방향 전환 결정</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <h3>1. 기존 문제점 분석</h3>
+      <ul>
+        <li>망막 혈관 영상은 픽셀 경계가 흐릿하여, 0과 1로만 구분하는 기존 Binary Segmentation 방식 적용 시 미세한 혈관 정보가 손실되는 문제</li>
+      </ul>
+
+      <p>→ 픽셀의 투명도(&alpha; 값)를 추정하는 Image Matting 기법을 활용해 혈관 주변의 부드러운 경계를 보존하고 진단 정확도를 높이고자 함</p>
+
+      <h3>2. 주요 기술적 기여</h3>
+      <ul>
+        <li><strong>데이터셋 구축:</strong> 정답 데이터(GT) 부재 문제를 해결하기 위해 Photoshop을 활용하여 직접 미세 혈관의 Alpha Matte를 생성해 학습 데이터 확보</li>
+        <li><code>IndexNet</code>, <code>AEMatter</code>, <code>MatteFormer</code> 등 최신 Matting 모델로 Fine-tuning</li>
+      </ul>
+
+      <h3>3. 도메인 분석을 통한 연구 주제 변경</h3>
+      <ul>
+        <li><strong>한계점 발견:</strong> 모델 학습 결과, 의료 영상 특유의 노이즈와 미세 혈관의 복잡성으로 인해 성능 확보에 어려움 확인</li>
+        <li><strong>전문가 자문 및 인사이트:</strong>
+          <ul>
+            <li>안과 전문 교수님 자문을 통해 망막 혈관은 투명도의 문제가 아니라 경계 위치의 모호성 문제임을 파악</li>
+            <li>도메인과 기법의 불일치성을 알고 연구 중단</li>
+          </ul>
+        </li>
+        <li>해당 경험을 바탕으로 기술 중심적인 접근에서 벗어나 도메인에 대한 깊은 이해가 선행되어야 함을 깨닫게 됨</li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>
